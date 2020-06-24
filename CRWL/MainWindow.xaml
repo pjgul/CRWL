@@ -1,0 +1,40 @@
+﻿<Window x:Class="CRWL.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CRWL"
+        mc:Ignorable="d"
+        Title="CRWL" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+    <Grid Background="Gray">
+        <TextBox x:Name="textCRWL" Background="DarkSlateGray" BorderBrush="Black" BorderThickness="5" HorizontalAlignment="Left" Height="350" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" IsReadOnly="True" Width="300"/>
+        <Image x:Name="roomScreen" HorizontalAlignment="Left" Height="400" Margin="300,0,0,0" VerticalAlignment="Top" Width="400" Source="images/3NE.png"/>
+        <Button x:Name="ForwardB" Content="FORWARD" Visibility="Visible" HorizontalAlignment="Left" Margin="470,368,0,0" VerticalAlignment="Top" Width="66" Click="ForwardB_Click" RenderTransformOrigin="0.121,0.5"/>
+        <Border BorderBrush="Black" BorderThickness="5" HorizontalAlignment="Left" Height="50" Margin="0,350,0,0" VerticalAlignment="Top" Width="300"/>
+        <Button Name="Search" Content="Search" HorizontalAlignment="Left" Margin="6,355,0,0" VerticalAlignment="Top" Width="100" Height="40" Click="Search_Click"/>
+        <Button x:Name="Explore" Content="Explore" HorizontalAlignment="Left" Margin="194,355,0,0" VerticalAlignment="Top" Width="100" Height="40" Click="Explore_Click"/>
+        <Border BorderBrush="Black" BorderThickness="5" HorizontalAlignment="Left" Height="50" Margin="700,350,0,0" VerticalAlignment="Top" Width="282"/>
+        <Button x:Name="Attack" Content="Attack" HorizontalAlignment="Left" Margin="705,355,0,0" VerticalAlignment="Top" Width="100" Height="40"/>
+        <Button x:Name="Use" Content="Use" HorizontalAlignment="Left" Margin="877,355,0,0" VerticalAlignment="Top" Width="100" Height="40"/>
+        <Button x:Name="LeftB" Content="LEFT" HorizontalAlignment="Left" Margin="350,368,0,0" VerticalAlignment="Top" Width="50" Click="LeftB_Click"/>
+        <Button x:Name="RightB" Content="RIGHT" HorizontalAlignment="Left" Margin="600,368,0,0" VerticalAlignment="Top" Width="50" Click="RightB_Click"/>
+        <TabControl HorizontalAlignment="Left" Height="355" Margin="700,0,0,0" VerticalAlignment="Top" Width="282">
+            <TabItem Header="Stats">
+                <Grid Background="Gray"/>
+            </TabItem>
+            <TabItem Header="Inventory">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Gold: 0" Name="Gold" BorderBrush="Firebrick" BorderThickness="2" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,0.385" Width="80" Background="#FF20FD16"/>
+                    <ListView x:Name="inventoryList" HorizontalAlignment="Left" Height="268" Margin="10,45,0,0" VerticalAlignment="Top" Width="252">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Inventory" DisplayMemberBinding="{Binding }"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
