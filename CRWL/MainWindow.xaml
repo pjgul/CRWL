@@ -28,7 +28,7 @@
                     <ListView x:Name="inventoryList" HorizontalAlignment="Left" Height="268" Margin="10,45,0,0" VerticalAlignment="Top" Width="252">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Inventory" DisplayMemberBinding="{Binding }"/>
+                                <GridViewColumn Header="Inventory" Width="252"/>
                             </GridView>
                         </ListView.View>
                     </ListView>

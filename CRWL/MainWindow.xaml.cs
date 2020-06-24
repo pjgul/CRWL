@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.IO;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
+using System.Xaml;
 
 namespace CRWL
 {
@@ -39,6 +41,12 @@ namespace CRWL
         public MainWindow()
         {
             InitializeComponent();
+
+            using (DungeonContext context = new DungeonContext())
+            {
+                context.Inventories.RemoveRange(context.Inventories);
+                context.SaveChanges();
+            }
 
             //using (DungeonContext context = new DungeonContext())
             //{
