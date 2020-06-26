@@ -14,24 +14,40 @@
         <Button Name="Search" Content="Search" HorizontalAlignment="Left" Margin="6,355,0,0" VerticalAlignment="Top" Width="100" Height="40" Click="Search_Click"/>
         <Button x:Name="Explore" Content="Explore" HorizontalAlignment="Left" Margin="194,355,0,0" VerticalAlignment="Top" Width="100" Height="40" Click="Explore_Click"/>
         <Border BorderBrush="Black" BorderThickness="5" HorizontalAlignment="Left" Height="50" Margin="700,350,0,0" VerticalAlignment="Top" Width="282"/>
-        <Button x:Name="Attack" Content="Attack" HorizontalAlignment="Left" Margin="705,355,0,0" VerticalAlignment="Top" Width="100" Height="40"/>
+        <Button x:Name="Attack" Content="Attack" HorizontalAlignment="Left" Margin="705,355,0,0" VerticalAlignment="Top" Width="100" Height="40" Click="Attack_Click"/>
         <Button x:Name="Use" Content="Use" HorizontalAlignment="Left" Margin="877,355,0,0" VerticalAlignment="Top" Width="100" Height="40"/>
         <Button x:Name="LeftB" Content="LEFT" HorizontalAlignment="Left" Margin="350,368,0,0" VerticalAlignment="Top" Width="50" Click="LeftB_Click"/>
         <Button x:Name="RightB" Content="RIGHT" HorizontalAlignment="Left" Margin="600,368,0,0" VerticalAlignment="Top" Width="50" Click="RightB_Click"/>
         <TabControl HorizontalAlignment="Left" Height="355" Margin="700,0,0,0" VerticalAlignment="Top" Width="282">
             <TabItem Header="Stats">
-                <Grid Background="Gray"/>
+                <Grid Background="Gray">
+                    <ProgressBar Name="healthBar" Minimum="0" Maximum="100" Value="100" HorizontalAlignment="Left" Height="25" Margin="10,288,0,0" VerticalAlignment="Top" Width="252" Foreground="Red" OpacityMask="Red">
+                        <ProgressBar.BorderBrush>
+                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                <GradientStop Color="#FFB2B2B2" Offset="0"/>
+                                <GradientStop Color="Red"/>
+                            </LinearGradientBrush>
+                        </ProgressBar.BorderBrush>
+                        <ProgressBar.Background>
+                            <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
+                                <GradientStop Color="#FFC7C7C7"/>
+                                <GradientStop Color="White"/>
+                            </LinearGradientBrush>
+                        </ProgressBar.Background>
+                    </ProgressBar>
+                </Grid>
             </TabItem>
             <TabItem Header="Inventory">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Gold: 0" Name="Gold" BorderBrush="Firebrick" BorderThickness="2" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,0.385" Width="80" Background="#FF20FD16"/>
-                    <ListView x:Name="inventoryList" HorizontalAlignment="Left" Height="268" Margin="10,45,0,0" VerticalAlignment="Top" Width="252">
+                    <ListView x:Name="inventoryList" SelectionChanged="inventoryList_SelectionChanged" HorizontalAlignment="Left" Height="268" Margin="10,45,0,0" VerticalAlignment="Top" Width="252">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Inventory" Width="252"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
+                    <Label Content="Label" HorizontalAlignment="Left" Margin="95,12,0,0" VerticalAlignment="Top" Width="80"/>
                 </Grid>
             </TabItem>
         </TabControl>

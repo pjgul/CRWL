@@ -66,6 +66,7 @@
     </ApplicationDefinition>
     <Compile Include="Inventory.cs" />
     <Compile Include="Room.cs" />
+    <Compile Include="Status.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

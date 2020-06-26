@@ -48,6 +48,10 @@ namespace CRWL
                 context.SaveChanges();
             }
 
+            
+            
+            
+
             //using (DungeonContext context = new DungeonContext())
             //{
             // context.Rooms.Add(new Room() { RoomName = "1NE" });
@@ -146,13 +150,14 @@ namespace CRWL
             //room can only be searched once, afterwards the visited flag is switched on
             if (visitedFlag == false)
             {
+                //generates a random amount of gold for the player to find in the room
                 int grand = (int)(new Random().Next(1, 101));
                 gold += grand;
                 Gold.Content = "Gold: " + gold;
 
                 using (DungeonContext context = new DungeonContext())
                 {
-                    context.Inventories.Add(new Inventory() { InventoryName = "Toothpick of destruction" });
+                    context.Inventories.Add(new Inventory() { InventoryName = "Health Pot" });
                     context.SaveChanges();
 
                     var query = context.Inventories.Select(b => b.InventoryName).ToList();
@@ -160,8 +165,20 @@ namespace CRWL
                     inventoryList.ItemsSource = query;
                 }
 
+                //once the room has been searched, the flag is set to true so they can't search the same room multiple times
                 visitedFlag = true;
             }
+        }
+
+        //attacks enemies
+        private void Attack_Click(object sender, RoutedEventArgs e)
+        {
+            healthBar.Value = 50;
+        }
+
+        private void inventoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
