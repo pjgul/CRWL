@@ -16,6 +16,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Xaml;
+using System.ComponentModel;
 
 namespace CRWL
 {
@@ -164,6 +165,7 @@ namespace CRWL
                 int grand = (int)(new Random().Next(1, 101));
                 gold += grand;
                 Gold.Content = "Gold: " + gold;
+                textCRWL.Text = $"Searching around the room you find {grand} gold coins.";
 
                 using (DungeonContext context = new DungeonContext())
                 {
@@ -178,6 +180,8 @@ namespace CRWL
                 //once the room has been searched, the flag is set to true so they can't search the same room multiple times
                 visitedFlag = true;
             }
+            else
+                textCRWL.Text = "You have already searched this room.";
         }
 
         //attacks enemies
@@ -195,12 +199,11 @@ namespace CRWL
                         if (healthBar.Value < 100)
                         {
                             healthBar.Value = healthBar.Value + 10;
-                            inventoryList.Items.RemoveAt(inventoryList.SelectedIndex);
-                        }
-                        else
-                        {
-                            healthBar.Value = 100;
-                            //inventoryList.Items.RemoveAt(inventoryList.SelectedIndex);
+                            IEditableCollectionView items = inventoryList.Items; 
+                            if (items.CanRemove)
+                            {
+                                items.Remove(inventoryList.SelectedItem);
+                            }
                         }
                         break;
                     }
