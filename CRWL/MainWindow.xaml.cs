@@ -30,6 +30,10 @@ namespace CRWL
         string nameOfRoom = "text";
         //the numbers of corridors in the room
         int roomNum = 1;
+        //the type of the room
+        string roomType = "";
+        //the type of an enemy
+        string enemyType = "";
         //tracks the amount of gold
         int gold;
         //checks whether the room has been visited or not
@@ -60,15 +64,14 @@ namespace CRWL
             }
 
             textCRWL.Text = "You venture into the dark depths of these decrepit catacombs. You search for treasure, but you may find more than you might have bargained for. For even though these Catacombs are Rampant With Loot, they also hold death.";
-            
-            
+
+
+            //uncomment only when you add new rooms
 
             //using (DungeonContext context = new DungeonContext())
             //{
-            // context.Rooms.Add(new Room() { RoomName = "1NE" });
-            //context.Rooms.Add(new Room() { RoomName = "2NE" });
-            // context.Rooms.Add(new Room() { RoomName = "3NE" });
-            // context.SaveChanges();
+            //    context.Rooms.Add(new Room() { RoomName = "1ES" });
+            //    context.SaveChanges();
             //}
 
 
@@ -93,7 +96,8 @@ namespace CRWL
         {
             //generates a random index for the room
             Random rand = new Random();
-            int nrand = rand.Next(1, 4);
+            //the second int in the Next corresponds to total amount of rooms in the game -1
+            int nrand = rand.Next(1, 5);
 
             //the query ruturns room name correspondin to the random index
             using (var db = new DungeonContext())
@@ -105,7 +109,7 @@ namespace CRWL
                 }
             }
 
-            //the number of corridors in the room is passed into the variable
+            //thwe X value of the naming conventiont corresponding to the number of corridors in the room is passed into the variable
             roomNum = Int32.Parse(nameOfRoom.Substring(0, 1));
 
             //the screen of the room is set to the corresponding random room
@@ -167,6 +171,7 @@ namespace CRWL
                 Gold.Content = "Gold: " + gold;
                 textCRWL.Text = $"Searching around the room you find {grand} gold coins.";
 
+                //adds new item to the player's inventory
                 using (DungeonContext context = new DungeonContext())
                 {
                     context.Inventories.Add(new Inventory() { InventoryName = "Health Potion" });
@@ -176,6 +181,36 @@ namespace CRWL
 
                     inventoryList.ItemsSource = query;
                 }
+
+
+
+
+
+                //the Y value of the naming convention is stored corresponding to the type of room
+                roomType = nameOfRoom.Substring(1, 1);
+                //the Z value of the naming convention is stored corresponding to the type of enemy
+                enemyType = nameOfRoom.Substring(2, 1);
+
+                //actions for if the room type is an enemy
+                if (roomType == "E")
+                {
+                    switch(enemyType)
+                    {
+                        case "S":
+                            {
+                                textCRWL.Text = "You have encountered a putrid sludge monster. Prapare for battle!";
+                                break;
+                            }
+                    }
+                }
+                //actions for if the room type is a merchant
+                else if (roomType == "M")
+                {
+
+                }
+
+
+
 
                 //once the room has been searched, the flag is set to true so they can't search the same room multiple times
                 visitedFlag = true;
@@ -210,7 +245,7 @@ namespace CRWL
             }
         }
 
-
+        //sets the current held item based on selected item from inventoryList
         private void inventoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (inventoryList.SelectedItem != null)
