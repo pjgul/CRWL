@@ -33,6 +33,16 @@ namespace CRWL
         int gold;
         //checks whether the room has been visited or not
         bool visitedFlag = false;
+        //the item currently selected by the player
+        string item = "";
+
+
+        //room naming convention: XYZ. Example: 1NE
+        //X: number of corridors (after 3, evens: two corridors, odds: one or three corridors)
+        //Y: type of room. N ormal (nothing in it), E nemy, M erchant
+        //Z: type of type. There are different types of shops and enemies.
+        //Example 1: 1NE (one corridoe, normal room, empty)
+        //Example 2: 1ES (one corridor, enemy, type: sludge)
         
 
 
@@ -48,7 +58,7 @@ namespace CRWL
                 context.SaveChanges();
             }
 
-            
+            textCRWL.Text = "You venture into the dark depths of these decrepit catacombs. You search for treasure, but you may find more than you might have bargained for. For even though these Catacombs are Rampant With Loot, they also hold death.";
             
             
 
@@ -157,7 +167,7 @@ namespace CRWL
 
                 using (DungeonContext context = new DungeonContext())
                 {
-                    context.Inventories.Add(new Inventory() { InventoryName = "Health Pot" });
+                    context.Inventories.Add(new Inventory() { InventoryName = "Health Potion" });
                     context.SaveChanges();
 
                     var query = context.Inventories.Select(b => b.InventoryName).ToList();
@@ -176,9 +186,34 @@ namespace CRWL
             healthBar.Value = 50;
         }
 
+        private void Use_Click(object sender, RoutedEventArgs e)
+        {
+            switch (item)
+            {
+                case "Health Potion":
+                    {
+                        if (healthBar.Value < 100)
+                        {
+                            healthBar.Value = healthBar.Value + 10;
+                            inventoryList.Items.RemoveAt(inventoryList.SelectedIndex);
+                        }
+                        else
+                        {
+                            healthBar.Value = 100;
+                            //inventoryList.Items.RemoveAt(inventoryList.SelectedIndex);
+                        }
+                        break;
+                    }
+            }
+        }
+
+
         private void inventoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (inventoryList.SelectedItem != null)
+                item = inventoryList.SelectedItem as string;
         }
+
+        
     }
 }

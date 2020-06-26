@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:CRWL"
         mc:Ignorable="d"
         Title="CRWL" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
-    <Grid Background="Gray">
-        <TextBox x:Name="textCRWL" Background="DarkSlateGray" BorderBrush="Black" BorderThickness="5" HorizontalAlignment="Left" Height="350" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" IsReadOnly="True" Width="300"/>
+    <Grid Background="LightGray">
+        <TextBox x:Name="textCRWL" Background="LightGray" BorderBrush="Black" BorderThickness="5" HorizontalAlignment="Left" Height="350" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" IsReadOnly="True" Width="300" FontSize="14" FontWeight="Bold"/>
         <Image x:Name="roomScreen" HorizontalAlignment="Left" Height="400" Margin="300,0,0,0" VerticalAlignment="Top" Width="400" Source="images/3NE.png"/>
         <Button x:Name="ForwardB" Content="FORWARD" Visibility="Visible" HorizontalAlignment="Left" Margin="470,368,0,0" VerticalAlignment="Top" Width="66" Click="ForwardB_Click" RenderTransformOrigin="0.121,0.5"/>
         <Border BorderBrush="Black" BorderThickness="5" HorizontalAlignment="Left" Height="50" Margin="0,350,0,0" VerticalAlignment="Top" Width="300"/>
@@ -15,12 +15,12 @@
         <Button x:Name="Explore" Content="Explore" HorizontalAlignment="Left" Margin="194,355,0,0" VerticalAlignment="Top" Width="100" Height="40" Click="Explore_Click"/>
         <Border BorderBrush="Black" BorderThickness="5" HorizontalAlignment="Left" Height="50" Margin="700,350,0,0" VerticalAlignment="Top" Width="282"/>
         <Button x:Name="Attack" Content="Attack" HorizontalAlignment="Left" Margin="705,355,0,0" VerticalAlignment="Top" Width="100" Height="40" Click="Attack_Click"/>
-        <Button x:Name="Use" Content="Use" HorizontalAlignment="Left" Margin="877,355,0,0" VerticalAlignment="Top" Width="100" Height="40"/>
+        <Button x:Name="Use" Content="Use" HorizontalAlignment="Left" Margin="877,355,0,0" VerticalAlignment="Top" Width="100" Height="40" Click="Use_Click"/>
         <Button x:Name="LeftB" Content="LEFT" HorizontalAlignment="Left" Margin="350,368,0,0" VerticalAlignment="Top" Width="50" Click="LeftB_Click"/>
         <Button x:Name="RightB" Content="RIGHT" HorizontalAlignment="Left" Margin="600,368,0,0" VerticalAlignment="Top" Width="50" Click="RightB_Click"/>
         <TabControl HorizontalAlignment="Left" Height="355" Margin="700,0,0,0" VerticalAlignment="Top" Width="282">
             <TabItem Header="Stats">
-                <Grid Background="Gray">
+                <Grid Background="LightGray">
                     <ProgressBar Name="healthBar" Minimum="0" Maximum="100" Value="100" HorizontalAlignment="Left" Height="25" Margin="10,288,0,0" VerticalAlignment="Top" Width="252" Foreground="Red" OpacityMask="Red">
                         <ProgressBar.BorderBrush>
                             <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
@@ -43,11 +43,10 @@
                     <ListView x:Name="inventoryList" SelectionChanged="inventoryList_SelectionChanged" HorizontalAlignment="Left" Height="268" Margin="10,45,0,0" VerticalAlignment="Top" Width="252">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Inventory" Width="252"/>
+                                <GridViewColumn Header="Inventory" Width="247"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Label Content="Label" HorizontalAlignment="Left" Margin="95,12,0,0" VerticalAlignment="Top" Width="80"/>
                 </Grid>
             </TabItem>
         </TabControl>
