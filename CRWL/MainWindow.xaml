@@ -50,6 +50,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
+        <Image x:Name="enemyScreen" HorizontalAlignment="Left" Height="400" Margin="400,0,0,0" VerticalAlignment="Top" Width="200"/>
 
     </Grid>
 </Window>
