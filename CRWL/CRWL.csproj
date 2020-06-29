@@ -129,6 +129,12 @@
   <ItemGroup>
     <Resource Include="images\1EN.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\3M3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="items\HP Potion.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

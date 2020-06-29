@@ -32,19 +32,32 @@ namespace CRWL
         int roomNum = 1;
         //the type of the room
         string roomType = "";
-        //the type of an enemy
-        string enemyType = "";
+        //the special type
+        string specialType = "";
 
         //tracks the amount of gold
         int gold;
-        //checks whether the room has been visited or not
-        bool visitedFlag = false;
         //the item currently selected by the player
         string item = "";
         //the number of rooms visited
         int roomsVisited = 1;
+
+        //checks whether the room has been visited or not
+        bool visitedFlag = false;
         //checks if the current enemy is still alive
         bool isEnemyAlive = false;
+        //the variable acts as a switch between exploring rooms and buying items
+        bool exploreMode = true;
+
+
+        //flags for buying items
+
+        //has left item been bought
+        bool leftBougth = false;
+        //has middle item been bought
+        bool middleBougth = false;
+        //has right item been bought
+        bool rightBougth = false;
 
         //the damage that the player can deal
         int attackStrength = 5;
@@ -86,8 +99,8 @@ namespace CRWL
             //using (DungeonContext context = new DungeonContext())
             //{
 
-            //    context.Rooms.Add(new Room() { RoomName = "1EN" });
-            //    context.Monsters.Add(new Monster() { MonsterName = "Putrid Sludge", MonsterAttack = 5, MonsterHealth = 10 });
+            //    context.Rooms.Add(new Room() { RoomName = "3M3" });
+            //    //context.Monsters.Add(new Monster() { MonsterName = "Putrid Sludge", MonsterAttack = 5, MonsterHealth = 10 });
             //    context.SaveChanges();
             //}
 
@@ -109,85 +122,245 @@ namespace CRWL
 
 
 
-        private void ForwardB_Click(object sender, RoutedEventArgs e)
-        {
-            //the game lets you only explore if you're not fighting an enemy
-            if (isEnemyAlive == false)
-            {
-                //generates a random index for the room
-                Random rand = new Random();
-                //the second int in the Next corresponds to total amount of rooms in the game -1
-                int nrand = rand.Next(1, 5);
-
-                //the query ruturns room name correspondin to the random index
-                using (var db = new DungeonContext())
-                {
-                    var query = db.Rooms.Where(b => b.RoomId == nrand).Select(b => b.RoomName);
-                    foreach (string name in query)
-                    {
-                        nameOfRoom = name;
-                    }
-                }
-
-                //thwe X value of the naming conventiont corresponding to the number of corridors in the room is passed into the variable
-                roomNum = Int32.Parse(nameOfRoom.Substring(0, 1));
-
-                //the screen of the room is set to the corresponding random room
-                roomScreen.Source = new BitmapImage(new Uri($"/images/{nameOfRoom}.png", UriKind.RelativeOrAbsolute));
-
-                //unneaded buttons get turned off
-                switch (roomNum)
-                {
-                    case 1:
-                        {
-                            ForwardB.Visibility = Visibility.Visible;
-                            LeftB.Visibility = Visibility.Hidden;
-                            RightB.Visibility = Visibility.Hidden;
-                            break;
-                        }
-                    case 2:
-                        {
-                            ForwardB.Visibility = Visibility.Hidden;
-                            LeftB.Visibility = Visibility.Visible;
-                            RightB.Visibility = Visibility.Visible;
-                            break;
-                        }
-                    case 3:
-                        {
-                            ForwardB.Visibility = Visibility.Visible;
-                            LeftB.Visibility = Visibility.Visible;
-                            RightB.Visibility = Visibility.Visible;
-                            break;
-                        }
-                }
-
-                //resets the flag for visiting a room and updates the count of rooms visited
-                visitedFlag = false;
-                roomsVisited++;
-                textCRWL.Text = "The room is dark and filthy.";
-
-                enemyScreen.Source = null;
-            }
-            else
-            {
-                textCRWL.Text = "You can't run away, you're currently in a fight!";
-                Enemy_Attack();
-            }
-        }
+        
 
         private void Explore_Click(object sender, RoutedEventArgs e)
         {
-            ForwardB_Click(sender, e);
+            if (exploreMode == true)
+            {
+                //the game lets you only explore if you're not fighting an enemy
+                if (isEnemyAlive == false)
+                {
+                    //generates a random index for the room
+                    Random rand = new Random();
+                    //the second int in the Next corresponds to total amount of rooms in the game -1
+                    int nrand = rand.Next(1, 6);
+
+                    //the query ruturns room name correspondin to the random index
+                    using (var db = new DungeonContext())
+                    {
+                        var query = db.Rooms.Where(b => b.RoomId == nrand).Select(b => b.RoomName);
+                        foreach (string name in query)
+                        {
+                            nameOfRoom = name;
+                        }
+                    }
+
+                    //thwe X value of the naming conventiont corresponding to the number of corridors in the room is passed into the variable
+                    roomNum = Int32.Parse(nameOfRoom.Substring(0, 1));
+                    //the Y value of the naming convention is stored corresponding to the type of room
+                    roomType = nameOfRoom.Substring(1, 1);
+                    //the Z value of the naming convention is stored corresponding to the type of enemy
+                    specialType = nameOfRoom.Substring(2, 1);
+
+                    //the screen of the room is set to the corresponding random room
+                    roomScreen.Source = new BitmapImage(new Uri($"/images/{nameOfRoom}.png", UriKind.RelativeOrAbsolute));
+
+                    //unneaded buttons get turned off
+                    switch (roomNum)
+                    {
+                        case 1:
+                            {
+                                ForwardB.Visibility = Visibility.Visible;
+                                LeftB.Visibility = Visibility.Hidden;
+                                RightB.Visibility = Visibility.Hidden;
+                                break;
+                            }
+                        case 2:
+                            {
+                                ForwardB.Visibility = Visibility.Hidden;
+                                LeftB.Visibility = Visibility.Visible;
+                                RightB.Visibility = Visibility.Visible;
+                                break;
+                            }
+                        case 3:
+                            {
+                                ForwardB.Visibility = Visibility.Visible;
+                                LeftB.Visibility = Visibility.Visible;
+                                RightB.Visibility = Visibility.Visible;
+
+                                if (roomType == "M")
+                                {
+                                    exploreMode = false;
+
+                                    ForwardB.Content = "BUY";
+                                    LeftB.Content = "BUY";
+                                    RightB.Content = "BUY";
+
+                                    textCRWL.Text = "Welcome, welcome dear costumer! Are you intrested in my wares?";
+
+                                    leftItem.Source = new BitmapImage(new Uri($"/items/HP Potion.png", UriKind.RelativeOrAbsolute));
+                                    middleItem.Source = new BitmapImage(new Uri($"/items/HP Potion.png", UriKind.RelativeOrAbsolute));
+                                    rightItem.Source = new BitmapImage(new Uri($"/items/HP Potion.png", UriKind.RelativeOrAbsolute));
+                                }
+                                break;
+                            }
+                    }
+
+                    //resets the flag for visiting a room and updates the count of rooms visited
+                    visitedFlag = false;
+                    roomsVisited++;
+                    textCRWL.Text = "The room is dark and filthy.";
+
+                    enemyScreen.Source = null;
+                }
+                else
+                {
+                    textCRWL.Text = "You can't run away, you're currently in a fight!";
+                    Enemy_Attack();
+                }
+            }
+            //if the room has a merchant and the explore button is clicked again, the player explores a new room
+            else
+            {
+                exploreMode = true;
+
+                //the bought item flags reset themselves
+                leftBougth = false;
+                middleBougth = false;
+                rightBougth = false;
+
+                //the items get erased of the screen
+                leftItem.Source = null;
+                middleItem.Source = null;
+                rightItem.Source = null;
+
+                //the button names get set back to normal
+                LeftB.Content = "LEFT";
+                ForwardB.Content = "FORWARD";
+                RightB.Content = "RIGHT";
+
+                Explore_Click(sender, e);
+            }
         }
 
         private void LeftB_Click(object sender, RoutedEventArgs e)
         {
-            ForwardB_Click(sender, e);
+            if(exploreMode == true)
+                Explore_Click(sender, e);
+            //buy mode
+            else
+            {
+                if (leftBougth == false)
+                {
+                    //checks if player has enough gold to buy the item
+                    if (gold >= 10)
+                    {
+                        leftItem.Source = null;
+
+                        //the bought potion gets added to the inventory
+                        using (DungeonContext context = new DungeonContext())
+                        {
+                            context.Inventories.Add(new Inventory() { InventoryName = "Health Potion" });
+                            context.SaveChanges();
+
+                            var query = context.Inventories.Select(b => b.InventoryName).ToList();
+
+                            inventoryList.ItemsSource = query;
+                        }
+
+                        textCRWL.Text = "You bought a Health Potion.";
+
+                        //bought gets set to true stopping from buying a non exsistant item
+                        leftBougth = true;
+
+                        //the display for gold changes and then the gold gets subtracted
+                        Gold.Content = "Gold: " + (gold - 10);
+                        gold -= 10;
+                    }
+                    else
+                        textCRWL.Text = "You don't have enough gold to buy this item.";
+                }
+                //excutes if the item has been bought
+                else
+                    textCRWL.Text = "You've already bought this item.";
+            }
+        }
+
+        private void ForwardB_Click(object sender, RoutedEventArgs e)
+        {
+            if (exploreMode == true)
+                Explore_Click(sender, e);
+            //buy mode
+            else
+            {
+                if (middleBougth == false)
+                {
+                    //checks if player has enough gold to buy the item
+                    if (gold >= 10)
+                    {
+                        middleItem.Source = null;
+
+                        //the bought potion gets added to the inventory
+                        using (DungeonContext context = new DungeonContext())
+                        {
+                            context.Inventories.Add(new Inventory() { InventoryName = "Health Potion" });
+                            context.SaveChanges();
+
+                            var query = context.Inventories.Select(b => b.InventoryName).ToList();
+
+                            inventoryList.ItemsSource = query;
+                        }
+
+                        textCRWL.Text = "You bought a Health Potion.";
+
+                        //bought gets set to true stopping from buying a non exsistant item
+                        middleBougth = true;
+
+                        //the display for gold changes and then the gold gets subtracted
+                        Gold.Content = "Gold: " + (gold - 10);
+                        gold -= 10;
+                    }
+                    else
+                        textCRWL.Text = "You don't have enough gold to buy this item.";
+                }
+                //executes if the item has been bought
+                else
+                    textCRWL.Text = "You've already bought this item.";
+            }
         }
 
         private void RightB_Click(object sender, RoutedEventArgs e)
         {
-            ForwardB_Click(sender, e);
+            if (exploreMode == true)
+                Explore_Click(sender, e);
+            //buy mode
+            else
+            {
+                if (rightBougth == false)
+                {
+                    //checks if player has enough gold to buy the item
+                    if (gold >= 10)
+                    {
+                        rightItem.Source = null;
+
+                        //the bought potion gets added to the inventory
+                        using (DungeonContext context = new DungeonContext())
+                        {
+                            context.Inventories.Add(new Inventory() { InventoryName = "Health Potion" });
+                            context.SaveChanges();
+
+                            var query = context.Inventories.Select(b => b.InventoryName).ToList();
+
+                            inventoryList.ItemsSource = query;
+                        }
+
+                        textCRWL.Text = "You bought a Health Potion.";
+
+                        //bought gets set to true stopping from buying a non exsistant item
+                        rightBougth = true;
+
+                        //the display for gold changes and then the gold gets subtracted
+                        Gold.Content = "Gold: " + (gold - 10);
+                        gold -= 10;
+                    }
+                    else
+                        textCRWL.Text = "You don't have enough gold to buy this item.";
+                }
+                //excutes if the item has been bought
+                else
+                    textCRWL.Text = "You've already bought this item.";
+            }
         }
 
 
@@ -197,16 +370,12 @@ namespace CRWL
             //room can only be searched once, afterwards the visited flag is switched on
             if (visitedFlag == false)
             {
-                //the Y value of the naming convention is stored corresponding to the type of room
-                roomType = nameOfRoom.Substring(1, 1);
-                //the Z value of the naming convention is stored corresponding to the type of enemy
-                enemyType = nameOfRoom.Substring(2, 1);
 
                 //enemies only found in 1 corridor rooms
                 if (roomNum == 1)
                 {
                     //check if it's an enemy room and if it's normal type
-                    if (roomType == "E" && enemyType == "N")
+                    if (roomType == "E" && specialType == "N")
                     {
                         Random chance = new Random();
                         int tt = chance.Next(1, 4);
@@ -225,7 +394,13 @@ namespace CRWL
                                 }
                             case 2:
                                 {
-                                    textCRWL.Text = "Enemy spotted!";
+                                    textCRWL.Text = "You've encoutered Putrid Sludge. Prepare for battle!";
+                                    isEnemyAlive = true;
+                                    Beastiary.Putrid_Sludge();
+                                    ForwardB.Visibility = Visibility.Hidden;
+                                    LeftB.Visibility = Visibility.Hidden;
+                                    RightB.Visibility = Visibility.Hidden;
+                                    enemyScreen.Source = new BitmapImage(new Uri($"/monsters/Putrid Sludge.png", UriKind.RelativeOrAbsolute));
                                     break;
                                 }
                             case 3:

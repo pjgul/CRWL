@@ -51,6 +51,9 @@
             </TabItem>
         </TabControl>
         <Image x:Name="enemyScreen" HorizontalAlignment="Left" Height="400" Margin="400,0,0,0" VerticalAlignment="Top" Width="200"/>
+        <Image x:Name="middleItem" HorizontalAlignment="Left" Height="60" Margin="484,174,0,0" VerticalAlignment="Top" Width="60"/>
+        <Image x:Name="leftItem" HorizontalAlignment="Left" Height="60" Margin="419,174,0,0" VerticalAlignment="Top" Width="60"/>
+        <Image x:Name="rightItem" HorizontalAlignment="Left" Height="60" Margin="549,174,0,0" VerticalAlignment="Top" Width="60"/>
 
     </Grid>
 </Window>
