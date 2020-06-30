@@ -98,9 +98,12 @@ namespace CRWL
 
             //using (DungeonContext context = new DungeonContext())
             //{
-
+            //    context.Rooms.Add(new Room() { RoomName = "1EN" });
+            //    context.Rooms.Add(new Room() { RoomName = "1NE" });
+            //    context.Rooms.Add(new Room() { RoomName = "2NE" });
             //    context.Rooms.Add(new Room() { RoomName = "3M3" });
-            //    //context.Monsters.Add(new Monster() { MonsterName = "Putrid Sludge", MonsterAttack = 5, MonsterHealth = 10 });
+            //    context.Rooms.Add(new Room() { RoomName = "3NE" });
+            //    context.Monsters.Add(new Monster() { MonsterName = "Putrid Sludge", MonsterAttack = 5, MonsterHealth = 10 });
             //    context.SaveChanges();
             //}
 
